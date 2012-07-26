@@ -8,6 +8,7 @@ import com.itextpdf.text.Anchor;
 import com.itextpdf.text.BadElementException;
 import com.itextpdf.text.BaseColor;
 import com.itextpdf.text.Chapter;
+import com.itextpdf.text.Chunk;
 import com.itextpdf.text.Document;
 import com.itextpdf.text.DocumentException;
 import com.itextpdf.text.Element;
@@ -33,10 +34,10 @@ import java.util.logging.Logger;
  * @author Nimil
  */
 public class CreatePDF {
-    private static int noBorder = Rectangle.NO_BORDER;
 
     private String filePath;
     //Static Methods
+    private static int noBorder = Rectangle.NO_BORDER;
     private static Font catFont = new Font(Font.FontFamily.TIMES_ROMAN, 18,
             Font.BOLD);
     private static Font smallFont = new Font(Font.FontFamily.TIMES_ROMAN, 12,
@@ -120,48 +121,13 @@ public class CreatePDF {
 
     
     private static void addContent(Document document) throws DocumentException {
-        Anchor anchor = new Anchor("First Chapter", catFont);
-        anchor.setName("First Chapter");
-
-        // Second parameter is the number of the chapter
-        Chapter catPart = new Chapter(new Paragraph(anchor), 1);
-
-        Paragraph subPara = new Paragraph("Subcategory 1", subFont);
-        Section subCatPart = catPart.addSection(subPara);
-        subCatPart.add(new Paragraph("Hello"));
-
-        subPara = new Paragraph("Subcategory 2", subFont);
-        subCatPart = catPart.addSection(subPara);
-        subCatPart.add(new Paragraph("Paragraph 1"));
-        subCatPart.add(new Paragraph("Paragraph 2"));
-        subCatPart.add(new Paragraph("Paragraph 3"));
-
-        // Add a list
-        createList(subCatPart);
-        Paragraph paragraph = new Paragraph();
-        addEmptyLine(paragraph, 5);
-        subCatPart.add(paragraph);
-
-        // Add a table
-        createTable(subCatPart);
-
-        // Now add all this to the document
-        document.add(catPart);
-
-        // Next section
-        anchor = new Anchor("Second Chapter", catFont);
-        anchor.setName("Second Chapter");
-
-        // Second parameter is the number of the chapter
-        catPart = new Chapter(new Paragraph(anchor), 1);
-
-        subPara = new Paragraph("Subcategory", subFont);
-        subCatPart = catPart.addSection(subPara);
-        subCatPart.add(new Paragraph("This is a very important message"));
-
-        // Now add all this to the document
-        document.add(catPart);
-
+        Rectangle rect = new Rectangle(document.bottom(),document.left(),document.right(),document.right());
+        Chunk chunk = new Chunk();
+        chunk.setBackground(BaseColor.BLACK);
+        Paragraph para = new Paragraph(chunk);
+        para.add("Test");
+        document.add(rect);
+        document.add(para);
     }
 
     private static void createTable(Section subCatPart)
